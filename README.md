@@ -1,4 +1,4 @@
-# GCam360
+# GCam360 (PhotoSphere for Pixel 10 / Pro)
 
 Photo Sphere for the Pixel 10, built from an older Google Camera port.
 
