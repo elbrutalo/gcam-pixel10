@@ -1,0 +1,22 @@
+--- a/smali/gwk.smali
++++ b/smali/gwk.smali
+@@ -567,12 +567,19 @@
+ 
+     invoke-static {v0}, Ljzc;->l(Z)V
+ 
++    invoke-static {}, Lsgcam/patzi/Dev;->full()Z
++
++    move-result v0
++
++    if-eqz v0, :cond_nomoremodes
++
+     iget-object v0, p0, Lgwk;->d:Lcom/google/android/apps/camera/ui/modeswitcher/ModeSwitcher;
+ 
+     sget-object v2, Lheb;->p:Lheb;
+ 
+     invoke-virtual {v0, v2}, Lcom/google/android/apps/camera/ui/modeswitcher/ModeSwitcher;->c(Lheb;)V
+ 
++    :cond_nomoremodes
+     iget-object v0, p0, Lgwk;->c:Ljava/util/EnumMap;
+ 
+     sget-object v2, Lheb;->p:Lheb;

@@ -1,0 +1,32 @@
+--- a/smali_classes2/com/google/android/apps/camera/legacy/app/activity/main/CameraActivity.smali
++++ b/smali_classes2/com/google/android/apps/camera/legacy/app/activity/main/CameraActivity.smali
+@@ -219,6 +219,8 @@
+ 
+     move-object/from16 v1, p0
+ 
++    invoke-static {v1}, Lsgcam/patzi/Dev;->init(Landroid/content/Context;)V
++
+     invoke-static {v1}, Ljko;->a(Landroid/app/Activity;)V
+ 
+     const-string v0, "pref_lock_orientation_mode_key"
+@@ -1176,6 +1178,8 @@
+     invoke-virtual {p0}, Leau;->finish()V
+ 
+     :cond_0
++    invoke-static {p0}, Lsgcam/patzi/Ask;->show(Landroid/app/Activity;)V
++
+     return-void
+ .end method
+ 
+@@ -1361,5 +1365,11 @@
+ 
+     invoke-super {p0}, Ldqt;->onStop()V
+ 
++    invoke-static {}, Landroid/os/Process;->myPid()I
++
++    move-result v1
++
++    invoke-static {v1}, Landroid/os/Process;->killProcess(I)V
++
+     return-void
+ .end method

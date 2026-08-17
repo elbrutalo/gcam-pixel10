@@ -1,0 +1,192 @@
+--- a/smali/gvj.smali
++++ b/smali/gvj.smali
+@@ -171,24 +171,30 @@
+ 
+     iput-boolean v3, v0, Lgvj;->v:Z
+ 
++    invoke-static {}, Lsgcam/patzi/Dev;->full()Z
++
++    move-result v4
++
++    if-eqz v4, :cond_reduced
++
+     sget-object v5, Lheb;->m:Lheb;
+ 
+     invoke-virtual {v1, v5}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    if-eqz v3, :cond_0
++    if-eqz v3, :cond_nomotion
+ 
+     sget-object v3, Lheb;->l:Lheb;
+ 
+     invoke-virtual {v1, v3}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    :cond_0
+-    if-eqz v2, :cond_1
++    :cond_nomotion
++    if-eqz v2, :cond_noportrait
+ 
+     sget-object v2, Lheb;->g:Lheb;
+ 
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    :cond_1
++    :cond_noportrait
+     sget-object v2, Lheb;->b:Lheb;
+ 
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+@@ -197,44 +203,26 @@
+ 
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    sget-object v2, Lheb;->p:Lheb;
++    sget-object v2, Lheb;->e:Lheb;
+ 
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    invoke-virtual/range {p11 .. p11}, Lcak;->m()Landroid/content/Intent;
+-
+-    move-result-object v2
+-
+-    invoke-static {v2}, Lbju;->d(Landroid/content/Intent;)Lheb;
+-
+-    move-result-object v2
+-
+-    invoke-virtual {v2}, Lheb;->ordinal()I
+-
+-    move-result v3
+-
+-    sparse-switch v3, :sswitch_data_0
++    sget-object v2, Lheb;->p:Lheb;
+ 
+-    sget-object v2, Lheb;->b:Lheb;
++    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    iput-object v2, v0, Lgvj;->g:Lheb;
++    goto :goto_modes
+ 
+-    goto :goto_1
++    :cond_reduced
++    sget-object v2, Lheb;->e:Lheb;
+ 
+-    :sswitch_0
+-    sget-object v2, Lheb;->c:Lheb;
+-
+-    goto :goto_0
++    invoke-virtual {v1, v2}, Ljava/util/ArrayList;->add(Ljava/lang/Object;)Z
+ 
+-    :sswitch_1
+-    nop
++    :goto_modes
++    sget-object v2, Lheb;->e:Lheb;
+ 
+-    :goto_0
+     iput-object v2, v0, Lgvj;->g:Lheb;
+ 
+-    :goto_1
+-    iget-object v2, v0, Lgvj;->g:Lheb;
+-
+     invoke-virtual {v1, v2}, Ljava/util/ArrayList;->indexOf(Ljava/lang/Object;)I
+ 
+     move-result v1
+@@ -248,19 +236,6 @@
+     invoke-interface {v1, p0}, Lekv;->a(Lgvz;)V
+ 
+     return-void
+-
+-    nop
+-
+-    :sswitch_data_0
+-    .sparse-switch
+-        0x2 -> :sswitch_1
+-        0x5 -> :sswitch_0
+-        0x6 -> :sswitch_1
+-        0xb -> :sswitch_1
+-        0xc -> :sswitch_1
+-        0xd -> :sswitch_0
+-        0xf -> :sswitch_1
+-    .end sparse-switch
+ .end method
+ 
+ .method private final y(Lheb;Z)V
+@@ -426,21 +401,7 @@
+ .end method
+ 
+ .method private static z(I)V
+-    .locals 1
+-
+-    const/4 v0, -0x1
+-
+-    if-eq p0, v0, :cond_0
+-
+-    const/4 p0, 0x1
+-
+-    goto :goto_0
+-
+-    :cond_0
+-    const/4 p0, 0x0
+-
+-    :goto_0
+-    invoke-static {p0}, Ljzc;->w(Z)V
++    .locals 0
+ 
+     return-void
+ .end method
+@@ -520,6 +481,12 @@
+ 
+     invoke-interface {p1, v0}, Lgwq;->t(Lebs;)V
+ 
++    invoke-static {}, Lsgcam/patzi/Dev;->full()Z
++
++    move-result v0
++
++    if-eqz v0, :cond_onlysphere
++
+     iget-object p1, p0, Lgvj;->h:Lgwq;
+ 
+     sget-object v0, Lheb;->m:Lheb;
+@@ -528,7 +495,7 @@
+ 
+     iget-boolean p1, p0, Lgvj;->v:Z
+ 
+-    if-eqz p1, :cond_0
++    if-eqz p1, :cond_nomotion2
+ 
+     iget-object p1, p0, Lgvj;->h:Lgwq;
+ 
+@@ -536,10 +503,10 @@
+ 
+     invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+ 
+-    :cond_0
++    :cond_nomotion2
+     iget-boolean p1, p0, Lgvj;->s:Z
+ 
+-    if-eqz p1, :cond_1
++    if-eqz p1, :cond_noportrait2
+ 
+     iget-object p1, p0, Lgvj;->h:Lgwq;
+ 
+@@ -547,7 +514,7 @@
+ 
+     invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+ 
+-    :cond_1
++    :cond_noportrait2
+     iget-object p1, p0, Lgvj;->h:Lgwq;
+ 
+     sget-object v0, Lheb;->b:Lheb;
+@@ -560,6 +527,13 @@
+ 
+     invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
+ 
++    :cond_onlysphere
++    iget-object p1, p0, Lgvj;->h:Lgwq;
++
++    sget-object v0, Lheb;->e:Lheb;
++
++    invoke-interface {p1, v0}, Lgwq;->j(Lheb;)V
++
+     iget-object p1, p0, Lgvj;->h:Lgwq;
+ 
+     iget-object v0, p0, Lgvj;->g:Lheb;

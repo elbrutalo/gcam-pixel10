@@ -1,0 +1,11 @@
+--- a/smali_classes2/bju.smali
++++ b/smali_classes2/bju.smali
+@@ -10,7 +10,7 @@
+ .method static constructor <clinit>()V
+     .locals 1
+ 
+-    sget-object v0, Lheb;->b:Lheb;
++    sget-object v0, Lheb;->e:Lheb;
+ 
+     sput-object v0, Lbju;->a:Lheb;
+ 
