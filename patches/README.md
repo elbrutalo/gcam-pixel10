@@ -12,6 +12,7 @@ Paths are relative to that output directory.
 | `CameraActivity.patch` | `Dev.init`, the first-launch dialog, and the process kill in `onStop` |
 | `new/Dev.smali` | Device whitelist and preference gate (new class) |
 | `new/Ask.smali` | First-launch interface dialog (new class) |
+| `new/Bye.smali` | Deferred process termination, background-only (new class) |
 
 ## Applying
 
@@ -25,15 +26,15 @@ mkdir -p smali/sgcam/patzi
 cp ../patches/new/*.smali smali/sgcam/patzi/
 
 cd ..
-apktool b sgcam -o gcam360-unsigned.apk
-java -jar uber-apk-signer.jar --apks gcam360-unsigned.apk
+apktool b sgcam -o photosphere-unsigned.apk
+java -jar uber-apk-signer.jar --apks photosphere-unsigned.apk
 ```
 
 ## Not included as diffs
 
 The resource changes are mechanical and would be noise as patches:
 
-- `app_name` set to `GCam360` in `res/values/strings.xml` **and all 82 localized
+- `app_name` set to `Photo Sphere` in `res/values/strings.xml` **and all 82 localized
   `res/values-*/strings.xml`** — the localized files override the default one,
   so patching only the default leaves the old name on most devices
 - launcher icon layers in `res/mipmap-*` regenerated for both icon sets

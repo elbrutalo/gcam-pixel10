@@ -9,7 +9,7 @@
      invoke-static {v1}, Ljko;->a(Landroid/app/Activity;)V
  
      const-string v0, "pref_lock_orientation_mode_key"
-@@ -1176,6 +1178,8 @@
+@@ -1176,12 +1178,16 @@
      invoke-virtual {p0}, Leau;->finish()V
  
      :cond_0
@@ -18,15 +18,19 @@
      return-void
  .end method
  
-@@ -1361,5 +1365,11 @@
+ .method protected final onStart()V
+     .locals 8
+ 
++    invoke-static {}, Lsgcam/patzi/Bye;->cancel()V
++
+     iget-object v0, p0, Lcom/google/android/apps/camera/legacy/app/activity/main/CameraActivity;->w:Lcom/google/android/apps/camera/stats/timing/CameraActivityTiming;
+ 
+     iget-object v1, v0, Lcom/google/android/apps/camera/stats/timing/CameraActivityTiming;->l:Ljfl;
+@@ -1361,5 +1367,7 @@
  
      invoke-super {p0}, Ldqt;->onStop()V
  
-+    invoke-static {}, Landroid/os/Process;->myPid()I
-+
-+    move-result v1
-+
-+    invoke-static {v1}, Landroid/os/Process;->killProcess(I)V
++    invoke-static {}, Lsgcam/patzi/Bye;->schedule()V
 +
      return-void
  .end method
