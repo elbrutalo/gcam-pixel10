@@ -1,6 +1,6 @@
-# GCam360 (PhotoSphere for Pixel 10 / Pro)
+# SGCam360 (PhotoSphere for Pixel 10 / Pro and older Pixels)
 
-Photo Sphere for the Pixel 10, built from an older Google Camera port.
+Photo Sphere for the Pixel 10 and older Pixels, built from an older Google Camera port.
 
 Google removed Photo Sphere from the stock Pixel camera. This is
 `SGCAM_8.5.300.XX.10_STABLE_V24` by **Shamim**, patched to launch directly into
@@ -18,7 +18,7 @@ contains a small set of smali patches on top of his release. Original download:
 - On devices the mod actually supports (Pixel 7a, 8, 8 Pro, Fold, Tablet and
   older) the full mode list is kept
 - Either interface can be forced from *Settings → Viewfinder buttons →
-  GCam360 Interface*, and is asked once on first launch
+  SGCam 360 Interface*, and is asked once on first launch
 - Package name is `com.shamim.cam`, so it installs alongside the stock camera
 
 Output is a regular JPEG with XMP panorama metadata, so Google Photos displays
@@ -31,8 +31,10 @@ it as a proper 360° image.
 - The process is terminated when you leave the app. This is deliberate: with
   Photo Sphere as the only mode, the native Lightcycle engine is never torn
   down, and without the kill the viewfinder stays black on the second launch.
-  The cost is roughly one extra second of startup time, and a panorama that is
-  still rendering will be lost if you leave the app.
+  The check is deferred and only fires once the process is actually no longer
+  visible, so opening settings or saving a capture is unaffected. The cost is
+  roughly one extra second of startup time, and a panorama that is still
+  rendering will be lost if you leave the app mid-render.
 - Signed with a debug key, not with Shamim's. The `SignatureKiller` bundled in
   the original APK spoofs the platform signature, so the PairIP integrity check
   still passes.
@@ -40,7 +42,7 @@ it as a proper 360° image.
 ## Install
 
 ```
-adb install -r GCam360_v9.apk
+adb install -r SGCam360_v9.1.apk
 ```
 
 If a differently signed copy of SGCam is already installed, uninstall it first.
@@ -56,6 +58,13 @@ Device and preference gate. `full()` reads `patzicam_ui_mode` (the key kept its
 original name across the rename) from the default SharedPreferences; on `auto` (or when no context is set yet) it falls back to
 `known()`, a whitelist of the 25 Google device code names that the mod's own
 `sgcam/default/DeviceCodeNames` lists.
+
+### `smali/sgcam/patzi/Bye.smali` (new)
+
+Deferred process termination. Posts a check 1.5 s after `onStop`; it only kills
+the process when `ActivityManager.getMyMemoryState()` reports an importance
+worse than `IMPORTANCE_VISIBLE`. `onStart` cancels a pending check. Killing
+directly in `onStop` also killed the settings activity and aborted saving.
 
 ### `smali/sgcam/patzi/Ask.smali` (new)
 
@@ -91,12 +100,12 @@ reduced. The rest of the method is kept, because it ends with
 ### `CameraActivity.smali`
 
 `Dev.init(this)` at the top of `onCreate`, `Ask.show(this)` at the end of
-`onResume`, and `Process.killProcess(myPid())` after the super call in
-`onStop`.
+`onResume`, `Bye.cancel()` at the top of `onStart` and `Bye.schedule()` after
+the super call in `onStop`.
 
 ### Resources
 
-`app_name` set to `GCam360` in all 83 locale variants — patching only
+`app_name` set to `SGCam 360` in all 83 locale variants — patching only
 `res/values/strings.xml` is not enough, the localized files override it.
 Launcher icon layers regenerated for all five densities including the
 monochrome layer for themed icons. `ListPreference` plus two string arrays
@@ -107,8 +116,8 @@ added for the interface setting.
 ```
 apktool d SGCAM_8.5.300.XX.10_STABLE_V24.apk -o sgcam
 # apply the patches described above
-apktool b sgcam -o gcam360-unsigned.apk
-java -jar uber-apk-signer.jar --apks gcam360-unsigned.apk
+apktool b sgcam -o photosphere-unsigned.apk
+java -jar uber-apk-signer.jar --apks photosphere-unsigned.apk
 ```
 
 ## License and credits
