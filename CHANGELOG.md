@@ -1,5 +1,21 @@
 # Changelog
 
+## v9.1
+
+- Fixed the app dying when opening settings, and captures not being saved.
+  Both had the same cause: the process kill in `onStop` fired whenever the
+  camera activity went to the background — including when `CameraSettingsActivity`
+  opened on top of it. The kill is now deferred by 1.5 s and only runs when
+  `ActivityManager.getMyMemoryState()` reports the process as no longer visible,
+  and `onStart` cancels a pending check.
+- Renamed to SGCam 360.
+- New launcher icon: the GCam-style camera body with the 360° mark. Generated
+  for all five densities plus the monochrome layer for themed icons.
+- The icon is scaled from a measured maximum radius rather than a guessed
+  factor, so it stays inside the adaptive-icon safe zone (0.305 of the canvas)
+  and is not clipped by round, square or squircle launcher masks.
+- No code changes — `classes.dex` is byte-identical to v9.
+
 ## v9
 
 - Renamed to GCam360 (was Patzicam). The preference key `patzicam_ui_mode` was
@@ -8,7 +24,7 @@
 ## v8
 
 - Interface can now be chosen: a dialog on first launch, and a `ListPreference`
-  under *Viewfinder buttons → GCam360 Interface*.
+  under *Viewfinder buttons → SGCam 360 Interface*.
 - The device whitelist moved from `full()` to `known()` and is now only the
   fallback for the automatic setting.
 
